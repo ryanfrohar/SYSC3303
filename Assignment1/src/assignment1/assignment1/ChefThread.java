@@ -14,6 +14,9 @@ public class ChefThread implements Runnable{
 	}
 	
 	private void getFromTable() {
+		if(this.ingredient==Ingredient.JAM) {
+			System.out.print("HERE");
+		}
 		while(!(table.maxReached())) {
 			if(!(table.isEmpty())) {
 				boolean canMakeSandwich = true;
@@ -30,7 +33,7 @@ public class ChefThread implements Runnable{
 					System.out.println("The " + this.ingredient + " chef has made a sandwich");
 				}
 				try {
-					Thread.sleep(500);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {}
 			}
 		}
