@@ -4,7 +4,7 @@ package assignment1;
  * @author Ryan Frohar
  *
  */
-public class ChefThread extends Thread{
+public class ChefThread implements Runnable{
 	private Ingredient ingredient;
 	private Table table;
 
@@ -13,18 +13,9 @@ public class ChefThread extends Thread{
 		this.table = table;
 	}
 	
-	private synchronized void getFromTable() {
-		while(!(table.maxReached())){
-			while(table.isEmpty()) {
-				try {
-					wait();
-				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		
-			if(table.isEmpty()) {
+	private void getFromTable() {
+		while(!(table.maxReached())) {
+			if(!(table.isEmpty())) {
 				boolean canMakeSandwich = true;
 				for(Ingredient i : table.getContents()) {
 					if(i == this.ingredient) {
@@ -33,10 +24,14 @@ public class ChefThread extends Thread{
 					}
 				}
 				if(canMakeSandwich){
-					table.clearTable();
+					System.out.println(this.ingredient + " chef is getting");
+					this.table.get();
 					table.incrementSandwichesMade();
 					System.out.println("The " + this.ingredient + " chef has made a sandwich");
 				}
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {}
 			}
 		}
 	}

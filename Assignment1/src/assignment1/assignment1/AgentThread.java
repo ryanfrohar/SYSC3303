@@ -8,7 +8,7 @@ import java.util.Random;
  * @author Ryan Frohar
  *
  */
-public class AgentThread extends Thread{
+public class AgentThread implements Runnable{
 	
 	private Table table;
 	private Random rand;
@@ -20,17 +20,8 @@ public class AgentThread extends Thread{
 		this.table = table;
 	}
 	
-	private synchronized void putOnTable() {
-		while(!(table.maxReached())) {
-			while(!(table.isEmpty())) {
-				try { 
-					wait();
-				}
-				catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			
+	private void putOnTable() {
+		for(int i=0; i<20; i++){
 			Ingredient[] randIngredients = new Ingredient[2];
 			//Returns a pseudorandom, uniformly distributed int value between 0 (inclusive) and the specified value (exclusive), drawn from this random number generator's sequence.
 			randIngredients[0] = ingredientArr[rand.nextInt(ingredientArr.length)];
@@ -42,6 +33,9 @@ public class AgentThread extends Thread{
 			
 			table.put(randIngredients);
 			System.out.println("The agent has put " + randIngredients[0] + " and " + randIngredients[1] + " on the table.");
+			try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {}
 		}
 	}
 	

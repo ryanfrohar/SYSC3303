@@ -27,17 +27,37 @@ public class Table {
 		return empty;
 	}
 	
-	public void clearTable(){
+	public synchronized void get(){
+		while(this.empty) {
+			try {
+				wait();
+			}
+			catch (InterruptedException e) {
+				return;
+			}
+		}
+		this.ingredients = null;
 		this.empty=true;
+		System.out.println(this.sandwichesMade + 1 + " sandwiches made");
+		notifyAll();
 	}
 
-	public Ingredient[] getContents() {
+	public synchronized Ingredient[] getContents() {
 		return ingredients;
 	}
 	
-	public void put(Ingredient[] randIngredients) {
+	public synchronized void put(Ingredient[] randIngredients) {
+		while(!(this.empty)) {
+			try { 
+				wait();
+			}
+			catch (InterruptedException e) {
+				return;
+			}
+		}
 		this.ingredients=randIngredients;
 		this.empty=false;
+		notifyAll();
 	}
 	
 	public void incrementSandwichesMade() {
@@ -45,19 +65,6 @@ public class Table {
 	}
 	
 	public boolean maxReached() {
-		return (MAX_SANDWICHES >= this.sandwichesMade);
-	}
-	public static void main(String args[]) {
-		Table table = new Table();
-		AgentThread agent = new AgentThread(table);
-		ChefThread peanutButter = new ChefThread(Ingredient.PEANUT_BUTTER, table);
-		ChefThread bread = new ChefThread(Ingredient.BREAD, table);
-		ChefThread jelly = new ChefThread(Ingredient.JAM, table);
-		
-		agent.start();
-		peanutButter.start();
-		bread.start();
-		jelly.start();
-		
+		return (MAX_SANDWICHES <= this.sandwichesMade);
 	}
 }
