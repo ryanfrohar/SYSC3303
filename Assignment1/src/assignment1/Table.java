@@ -27,7 +27,7 @@ public class Table {
 		return empty;
 	}
 	
-	public synchronized void get(){
+	public synchronized void get() {
 		while(this.empty) {
 			try {
 				wait();
@@ -38,7 +38,6 @@ public class Table {
 		}
 		this.ingredients = null;
 		this.empty=true;
-		System.out.println(this.sandwichesMade + 1 + " sandwiches made");
 		notifyAll();
 	}
 
@@ -66,5 +65,9 @@ public class Table {
 	
 	public boolean maxReached() {
 		return (MAX_SANDWICHES <= this.sandwichesMade);
+	}
+	
+	public int numberSandwiches() {
+		return this.sandwichesMade;
 	}
 }

@@ -14,9 +14,6 @@ public class ChefThread implements Runnable{
 	}
 	
 	private void getFromTable() {
-		if(this.ingredient==Ingredient.JAM) {
-			System.out.print("HERE");
-		}
 		while(!(table.maxReached())) {
 			if(!(table.isEmpty())) {
 				boolean canMakeSandwich = true;
@@ -30,7 +27,7 @@ public class ChefThread implements Runnable{
 					System.out.println(this.ingredient + " chef is getting");
 					this.table.get();
 					table.incrementSandwichesMade();
-					System.out.println("The " + this.ingredient + " chef has made a sandwich");
+					System.out.println("The " + this.ingredient + " chef has made a sandwich for a total of " + table.numberSandwiches());
 				}
 				try {
 					Thread.sleep(1000);

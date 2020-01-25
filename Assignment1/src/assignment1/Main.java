@@ -13,7 +13,5 @@ public class Main {
 		peanutButter.start();
 		bread.start();
 		jelly.start();
-		System.out.println("here");
-		
 	}
 }
