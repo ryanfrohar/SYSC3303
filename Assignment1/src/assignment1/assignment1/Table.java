@@ -28,6 +28,7 @@ public class Table {
 	}
 	
 	public synchronized void get() {
+	//Synchronized method invoked by ChefThread
 		while(this.empty) {
 			try {
 				wait();
@@ -42,10 +43,12 @@ public class Table {
 	}
 
 	public synchronized Ingredient[] getContents() {
+	//Returns array of Ingredients CURRENTLY on table so that ChefThread can check and see if they're allowed to make a sandwich
 		return ingredients;
 	}
 	
 	public synchronized void put(Ingredient[] randIngredients) {
+	//Synchronized method invoked by AgentThread
 		while(!(this.empty)) {
 			try { 
 				wait();
@@ -60,10 +63,12 @@ public class Table {
 	}
 	
 	public void incrementSandwichesMade() {
+	//When ChefThread creates a sandwich, increment variable
 		sandwichesMade++;
 	}
 	
 	public boolean maxReached() {
+	//Used to determine when ChefThread should stop invoking get() method on table
 		return (MAX_SANDWICHES <= this.sandwichesMade);
 	}
 	

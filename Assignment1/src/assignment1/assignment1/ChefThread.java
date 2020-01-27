@@ -14,9 +14,12 @@ public class ChefThread implements Runnable{
 	}
 	
 	private void getFromTable() {
+		//while the sandwiches made is less than 20, loop
 		while(!(table.maxReached())) {
+			//only loop is the table is NOT empty
 			if(!(table.isEmpty())) {
 				boolean canMakeSandwich = true;
+				//iterate through the array of Ingredients on table and see if respective chef is capable of invoking get()
 				for(Ingredient i : table.getContents()) {
 					if(i == this.ingredient) {
 						canMakeSandwich = false;
