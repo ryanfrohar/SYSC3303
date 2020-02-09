@@ -106,7 +106,7 @@ public class Server {
 			type = 0;
 		}
 
-		//Create a response
+		//Create a response based on type which was found above
 		if (type == 1) {
 			answer = READ; //If the packet is valid read request it sends back 0301
 		}
@@ -117,7 +117,7 @@ public class Server {
 			throw new IllegalArgumentException("Quit"); //Throw error
 		}
 
-		//Create a packet with response
+		//Create a new Datagram packet containing answer which is an array of bytes
 		sendPacket = new DatagramPacket(answer, answer.length, receivePacket.getAddress(), receivePacket.getPort());
 
 		//Print out the response packet information
@@ -149,7 +149,8 @@ public class Server {
 
 		System.out.println("Server: packet sent using port " + sendSocket.getLocalPort()); //Print out which port it sent the packet to
 		System.out.println();
-		sendSocket.close(); //Closes the socket it just created
+		//Need to close socket after each sendSocket was created
+		sendSocket.close(); 
 		}
 	}
 

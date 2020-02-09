@@ -57,7 +57,7 @@ public class Host {
 		//Form a packet to send containing exactly what it received
 		sendPacket = new DatagramPacket(info, receivePacket.getLength(), receivePacket.getAddress(), 69);
 
-
+		//Need to save the FIRST recvieve packet so that we can send it back to the client
 		DatagramPacket client = receivePacket;
 		
 		//Print out the information it is about to send
